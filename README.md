@@ -1,6 +1,7 @@
 # Classification models 1D Zoo - Keras and TF.Keras
 
 This repository contains 1D variants of popular CNN models for classification like ResNets, DenseNets, VGG, etc. It also contains weights obtained by converting ImageNet weights from the same 2D models (soon).
+It can be useful for classification of audio or some timeseries data.
 
 This repository is based on great [classification_models](https://github.com/qubvel/classification_models) repo by [@qubvel](https://github.com/qubvel/)
 
