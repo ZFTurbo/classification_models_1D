@@ -109,4 +109,8 @@ model = ResNet18(
 
  * [https://github.com/qubvel/classification_models](https://github.com/qubvel/classification_models) - original 2D repo
  * [https://github.com/ZFTurbo/classification_models_3D](https://github.com/ZFTurbo/classification_models_3D) - 3D variant repo
-  
+ 
+### ToDo List
+
+* Publish imagenet weights converted from 2D version
+* Create pretrained weights obtained on [AudioSet](https://research.google.com/audioset/) 
