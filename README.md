@@ -55,7 +55,55 @@ If initial 2D model had shape (224, 224, 3) then you can use shape (W, 3) where 
 
 ### Additional features
 
-Default pooling/stride size for 1D models set equal to 4 to match (2, 2) pooling for 2D nets. Kernel size by default is 9 to match (3, 3) kernels . 
+* Default pooling/stride size for 1D models set equal to 4 to match (2, 2) pooling for 2D nets. Kernel size by default is 9 to match (3, 3) kernels. You can change it for your needs using parameters 
+ `stride_size` and `kernel_size`. Example:
+ 
+ ```python
+from classification_models_1D.tfkeras import Classifiers
+
+ResNet18, preprocess_input = Classifiers.get('resnet18')
+model = ResNet18(
+    input_shape=(224*224, 2),
+    stride_size=6,
+    kernel_size=3, 
+    weights=None
+)
+```
+
+* You can set different pooling for each pooling block. For example you don't need pooling at first convolution. 
+You can do it using tuple as value for `stride_size`:
+
+ ```python
+from classification_models_1D.tfkeras import Classifiers
+
+ResNet18, preprocess_input = Classifiers.get('resnet34')
+model = ResNet18(
+    input_shape=(65536, 2),
+    stride_size=(1, 4, 4, 8, 8),
+    kernel_size=9,
+    weights=None
+)
+```
+
+* For some models like (resnet, resnext, senet, vgg16, vgg19, densenet) it's possible to change number of blocks/poolings. 
+For example if you want to switch to pooling/stride = 2 but make more poolings overall. You can do it like that:
+
+ ```python
+from classification_models_1D.tfkeras import Classifiers
+
+ResNet18, preprocess_input = Classifiers.get('resnet34')
+model = ResNet18(
+    input_shape=(224*224, 2),
+    include_top=False,
+    weights=None,
+    stride_size=(2, 4, 4, 4, 2, 2, 2, 2),
+    kernel_size=3,
+    repetitions=(2, 2, 2, 2, 2, 2, 2),
+    init_filters=16,
+)
+```
+
+**Note**: Since number of filters grows 2 times, you can set initial number of filters with `init_filters` parameter.
 
 ### Related repositories
 
