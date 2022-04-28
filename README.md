@@ -1,6 +1,6 @@
 # Classification models 1D Zoo - Keras and TF.Keras
 
-This repository contains 1D variants of popular CNN models for classification like ResNets, DenseNets, VGG, etc. It also contains weights obtained by converting ImageNet weights from the same 2D models (soon).
+This repository contains 1D variants of popular CNN models for classification like ResNets, DenseNets, VGG, etc. It also contains weights obtained by converting ImageNet weights from the same 2D models.
 It can be useful for classification of audio or some timeseries data.
 
 This repository is based on great [classification_models](https://github.com/qubvel/classification_models) repo by [@qubvel](https://github.com/qubvel/)
@@ -32,7 +32,7 @@ This repository is based on great [classification_models](https://github.com/qub
 from classification_models_1D.tfkeras import Classifiers
 
 ResNet18, preprocess_input = Classifiers.get('resnet18')
-model = ResNet18(input_shape=(224*224, 2), weights=None)
+model = ResNet18(input_shape=(224*224, 2), weights='imagenet')
 ```
 
 All possible nets for `Classifiers.get()` method: `'resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152', 'seresnet18',
@@ -81,7 +81,7 @@ model = ResNet18(
     input_shape=(65536, 2),
     stride_size=(1, 4, 4, 8, 8),
     kernel_size=9,
-    weights=None
+    weights='imagenet'
 )
 ```
 
@@ -105,6 +105,12 @@ model = ResNet18(
 
 **Note**: Since number of filters grows 2 times, you can set initial number of filters with `init_filters` parameter.
 
+### Pretrained weights
+
+#### Imagenet
+
+Imagenet weights available for all models except ('inceptionresnetv2', 'inceptionv3'). They available only for `kernel_size == 3` or `kernel_size == 9` and 2 channel input (e.g. stereo sound). Weights were converted from 2D models to 1D variant. Weights can be loaded with any pooling scheme.   
+
 ### Related repositories
 
  * [https://github.com/qubvel/classification_models](https://github.com/qubvel/classification_models) - original 2D repo
@@ -112,5 +118,4 @@ model = ResNet18(
  
 ### ToDo List
 
-* Publish imagenet weights converted from 2D version
 * Create pretrained weights obtained on [AudioSet](https://research.google.com/audioset/) 
