@@ -279,5 +279,5 @@ def gen_text_with_links():
 
 
 if __name__ == '__main__':
-    # convert_models()
+    convert_models()
     gen_text_with_links()
