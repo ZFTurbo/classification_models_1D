@@ -21,10 +21,12 @@ Reference:
     https://arxiv.org/abs/2104.00298) (ICML 2021)
 """
 
+import os
 import copy
 import math
 
 from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 from keras import backend
 from keras import layers
 from keras.applications import imagenet_utils
@@ -863,12 +865,12 @@ def EfficientNetV2(
     if include_preprocessing:
         # Apply original V1 preprocessing for Bx variants
         # if number of channels allows it
-        num_channels = input_shape[bn_axis - 1]
-        if model_name.split("-")[-1].startswith("b") and num_channels == 3:
+        num_channels = input_shape[-1]
+        if model_name.split("-")[-1].startswith("b") and num_channels == 2:
             x = layers.Rescaling(scale=1. / 255)(x)
             x = layers.Normalization(
-                mean=[0.485, 0.456, 0.406],
-                variance=[0.229 ** 2, 0.224 ** 2, 0.225 ** 2],
+                mean=[0.485, 0.456],
+                variance=[0.229 ** 2, 0.224 ** 2],
                 axis=bn_axis,
             )(x)
         else:
@@ -991,8 +993,20 @@ def EfficientNetV2(
     model = training.Model(inputs, x, name=model_name)
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                model_name,
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
 
     return model
 

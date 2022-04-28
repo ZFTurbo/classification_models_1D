@@ -87,13 +87,8 @@ layers = None
 models = None
 keras_utils = None
 
-from tensorflow.keras import backend as K
-from tensorflow.keras import initializers
-from tensorflow.keras import regularizers
-from tensorflow.keras import constraints
 from tensorflow.keras import layers
-# from tensorflow.keras.engine import InputSpec
-# from tensorflow.keras.utils import conv_utils
+from ..weights import load_model_weights
 
 
 def preprocess_input(x, **kwargs):
@@ -434,8 +429,20 @@ def MobileNetV2(
                          name='mobilenetv2_%0.2f_%s' % (alpha, rows))
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                'mobilenetv2',
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
 
     return model
 

@@ -12,6 +12,7 @@ from __future__ import print_function
 
 import os
 from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 from keras_applications import imagenet_utils
 
 
@@ -148,7 +149,19 @@ def VGG16(
     model = models.Model(inputs, x, name='vgg16')
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                'vgg16',
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
 
     return model

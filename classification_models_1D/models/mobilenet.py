@@ -57,16 +57,9 @@ from __future__ import division
 import os
 import warnings
 from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 from tensorflow.keras.applications import imagenet_utils
-from tensorflow.keras import backend as K
-from tensorflow.keras import initializers
-from tensorflow.keras import regularizers
-from tensorflow.keras import constraints
 from tensorflow.keras import layers
-# from tensorflow.keras.engine import InputSpec
-# from tensorflow.keras.utils import conv_utils
-from tensorflow.keras.layers import Conv1D
-import tensorflow as tf
 
 backend = None
 layers = None
@@ -278,8 +271,20 @@ def MobileNet(
     model = models.Model(inputs, x, name='mobilenet_%0.2f_%s' % (alpha, rows))
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                'mobilenet',
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
 
     return model
 
@@ -412,6 +417,7 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
         kernel_size=9,
         depth_multiplier=depth_multiplier,
         strides=strides,
+        use_bias=False,
         name='conv_dw_%d' % block_id
     )(x)
     x = layers.BatchNormalization(

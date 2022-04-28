@@ -18,6 +18,7 @@ from __future__ import print_function
 
 import os
 from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 from keras_applications import imagenet_utils
 from keras_applications.imagenet_utils import decode_predictions
 from keras_applications.imagenet_utils import _obtain_input_shape
@@ -108,6 +109,7 @@ def DenseNet(
         first_kernel_size=49,
         pooling=None,
         classes=1000,
+        model_name='densenet',
         **kwargs
 ):
     """Instantiates the DenseNet architecture.
@@ -228,8 +230,20 @@ def DenseNet(
     model = models.Model(inputs, x, name='densenet')
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                model_name,
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
 
     return model
 
@@ -245,14 +259,17 @@ def DenseNet121(
         repetitions=(6, 12, 24, 16),
         pooling=None,
         classes=1000,
+        model_name='densenet121',
         **kwargs
 ):
-    return DenseNet(repetitions,
-                    include_top, weights,
-                    input_tensor, input_shape,
-                    stride_size, kernel_size, first_kernel_size,
-                    pooling, classes,
-                    **kwargs)
+    return DenseNet(
+        repetitions,
+        include_top, weights,
+        input_tensor, input_shape,
+        stride_size, kernel_size, first_kernel_size,
+        pooling, classes, model_name,
+        **kwargs
+    )
 
 
 def DenseNet169(
@@ -266,14 +283,17 @@ def DenseNet169(
         repetitions=(6, 12, 32, 32),
         pooling=None,
         classes=1000,
+        model_name='densenet169',
         **kwargs
 ):
-    return DenseNet(repetitions,
-                    include_top, weights,
-                    input_tensor, input_shape,
-                    stride_size, kernel_size, first_kernel_size,
-                    pooling, classes,
-                    **kwargs)
+    return DenseNet(
+        repetitions,
+        include_top, weights,
+        input_tensor, input_shape,
+        stride_size, kernel_size, first_kernel_size,
+        pooling, classes, model_name,
+        **kwargs
+    )
 
 
 def DenseNet201(
@@ -287,14 +307,17 @@ def DenseNet201(
         repetitions=(6, 12, 48, 32),
         pooling=None,
         classes=1000,
+        model_name='densenet201',
         **kwargs
 ):
-    return DenseNet(repetitions,
-                    include_top, weights,
-                    input_tensor, input_shape,
-                    stride_size, kernel_size, first_kernel_size,
-                    pooling, classes,
-                    **kwargs)
+    return DenseNet(
+        repetitions,
+        include_top, weights,
+        input_tensor, input_shape,
+        stride_size, kernel_size, first_kernel_size,
+        pooling, classes, model_name,
+        **kwargs
+    )
 
 
 def preprocess_input(x, data_format=None, **kwargs):
@@ -307,8 +330,12 @@ def preprocess_input(x, data_format=None, **kwargs):
     # Returns
         Preprocessed array.
     """
-    return imagenet_utils.preprocess_input(x, data_format,
-                                           mode='torch', **kwargs)
+    return imagenet_utils.preprocess_input(
+        x,
+        data_format,
+        mode='torch',
+        **kwargs
+    )
 
 
 setattr(DenseNet121, '__doc__', DenseNet.__doc__)

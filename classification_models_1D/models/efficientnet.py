@@ -22,8 +22,10 @@ Reference:
 """
 
 from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 import tensorflow.compat.v2 as tf
 
+import os
 import copy
 import math
 
@@ -394,8 +396,21 @@ def EfficientNet(
     model = training.Model(inputs, x, name=model_name)
 
     # Load weights.
-    if weights is not None:
-        model.load_weights(weights)
+    if weights:
+        if type(weights) == str and os.path.exists(weights):
+            model.load_weights(weights)
+        else:
+            load_model_weights(
+                model,
+                model_name,
+                weights,
+                classes,
+                include_top,
+                kernel_size,
+                input_shape[-1],
+                **kwargs
+            )
+
     return model
 
 
@@ -525,7 +540,7 @@ def EfficientNetB0(
         1.0,
         224,
         0.2,
-        model_name='efficientnetb0',
+        model_name='EfficientNetB0',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -554,7 +569,7 @@ def EfficientNetB1(
         1.1,
         240,
         0.2,
-        model_name='efficientnetb1',
+        model_name='EfficientNetB1',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -583,7 +598,7 @@ def EfficientNetB2(
         1.2,
         260,
         0.3,
-        model_name='efficientnetb2',
+        model_name='EfficientNetB2',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -612,7 +627,7 @@ def EfficientNetB3(
         1.4,
         300,
         0.3,
-        model_name='efficientnetb3',
+        model_name='EfficientNetB3',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -641,7 +656,7 @@ def EfficientNetB4(
         1.8,
         380,
         0.4,
-        model_name='efficientnetb4',
+        model_name='EfficientNetB4',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -670,7 +685,7 @@ def EfficientNetB5(
         2.2,
         456,
         0.4,
-        model_name='efficientnetb5',
+        model_name='EfficientNetB5',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -699,7 +714,7 @@ def EfficientNetB6(
         2.6,
         528,
         0.5,
-        model_name='efficientnetb6',
+        model_name='EfficientNetB6',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
@@ -728,7 +743,7 @@ def EfficientNetB7(
         3.1,
         600,
         0.5,
-        model_name='efficientnetb7',
+        model_name='EfficientNetB7',
         include_top=include_top,
         weights=weights,
         input_tensor=input_tensor,
