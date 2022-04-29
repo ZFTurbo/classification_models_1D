@@ -324,18 +324,21 @@ def preprocess_input(x, data_format=None, **kwargs):
     """Preprocesses a numpy array encoding a batch of images.
 
     # Arguments
-        x: a 3D or 4D numpy array consists of RGB values within [0, 255].
+        x: a 2D or 3D numpy array consists of sound [-1; 1].
         data_format: data format of the image tensor.
 
     # Returns
         Preprocessed array.
     """
-    return imagenet_utils.preprocess_input(
-        x,
-        data_format,
-        mode='torch',
-        **kwargs
-    )
+    x += 1.
+    x *= 0.5
+    mean = [0.485, 0.456]
+    std = [0.229, 0.224]
+    x[..., 0] -= mean[0]
+    x[..., 1] -= mean[1]
+    x[..., 0] /= std[0]
+    x[..., 1] /= std[1]
+    return x
 
 
 setattr(DenseNet121, '__doc__', DenseNet.__doc__)
