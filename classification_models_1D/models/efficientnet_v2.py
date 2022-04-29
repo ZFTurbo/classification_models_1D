@@ -1011,8 +1011,6 @@ def EfficientNetV2(
     return model
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2B0",
-              "keras.applications.EfficientNetV2B0")
 def EfficientNetV2B0(
     include_top=True,
     weights="imagenet",
@@ -1045,8 +1043,6 @@ def EfficientNetV2B0(
     )
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2B1",
-              "keras.applications.EfficientNetV2B1")
 def EfficientNetV2B1(
     include_top=True,
     weights="imagenet",
@@ -1079,8 +1075,6 @@ def EfficientNetV2B1(
     )
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2B2",
-              "keras.applications.EfficientNetV2B2")
 def EfficientNetV2B2(
     include_top=True,
     weights="imagenet",
@@ -1113,8 +1107,6 @@ def EfficientNetV2B2(
     )
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2B3",
-              "keras.applications.EfficientNetV2B3")
 def EfficientNetV2B3(
     include_top=True,
     weights="imagenet",
@@ -1147,8 +1139,6 @@ def EfficientNetV2B3(
     )
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2S",
-              "keras.applications.EfficientNetV2S")
 def EfficientNetV2S(
     include_top=True,
     weights="imagenet",
@@ -1180,9 +1170,6 @@ def EfficientNetV2S(
         **kwargs
     )
 
-
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2M",
-              "keras.applications.EfficientNetV2M")
 def EfficientNetV2M(
     include_top=True,
     weights="imagenet",
@@ -1215,8 +1202,6 @@ def EfficientNetV2M(
     )
 
 
-@keras_export("keras.applications.efficientnet_v2.EfficientNetV2L",
-              "keras.applications.EfficientNetV2L")
 def EfficientNetV2L(
     include_top=True,
     weights="imagenet",
@@ -1258,8 +1243,7 @@ EfficientNetV2M.__doc__ = BASE_DOCSTRING.format(name="EfficientNetV2M")
 EfficientNetV2L.__doc__ = BASE_DOCSTRING.format(name="EfficientNetV2L")
 
 
-@keras_export("keras.applications.efficientnet_v2.preprocess_input")
-def preprocess_input(x, data_format=None):  # pylint: disable=unused-argument
+def preprocess_input(x, data_format=None, **kwargs):  # pylint: disable=unused-argument
     """A placeholder method for backward compatibility.
 
     The preprocessing logic has been included in the EfficientNetV2 model
@@ -1280,8 +1264,7 @@ def preprocess_input(x, data_format=None):  # pylint: disable=unused-argument
     return x
 
 
-@keras_export("keras.applications.efficientnet_v2.decode_predictions")
-def decode_predictions(preds, top=5):
+def decode_predictions(preds, top=5, **kwargs):
     return imagenet_utils.decode_predictions(preds, top=top)
 
 
