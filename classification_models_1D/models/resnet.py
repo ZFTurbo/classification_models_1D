@@ -196,6 +196,7 @@ def ResNet(
         init_filters=64,
         first_kernel_size=49,
         repetitions=None,
+        pooling=None,
         **kwargs
 ):
     """Instantiates the ResNet, SEResNet architecture.
@@ -323,6 +324,11 @@ def ResNet(
         x = layers.GlobalAveragePooling1D(name='pool1')(x)
         x = layers.Dense(classes, name='fc1')(x)
         x = layers.Activation('softmax', name='softmax')(x)
+    else:
+        if pooling == 'avg':
+            x = layers.GlobalAveragePooling1D(name='avg_pool')(x)
+        elif pooling == 'max':
+            x = layers.GlobalMaxPooling1D(name='max_pool')(x)
 
     # Ensure that the model takes into account any potential predecessors of `input_tensor`.
     if input_tensor is not None:
@@ -370,6 +376,7 @@ def ResNet18(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -384,6 +391,7 @@ def ResNet18(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -395,6 +403,7 @@ def ResNet34(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -409,6 +418,7 @@ def ResNet34(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -420,6 +430,7 @@ def ResNet50(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -434,6 +445,7 @@ def ResNet50(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -445,6 +457,7 @@ def ResNet101(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -459,6 +472,7 @@ def ResNet101(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -470,6 +484,7 @@ def ResNet152(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -484,6 +499,7 @@ def ResNet152(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -495,6 +511,7 @@ def SEResNet18(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -509,6 +526,7 @@ def SEResNet18(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
@@ -520,6 +538,7 @@ def SEResNet34(
         input_shape=None,
         input_tensor=None,
         weights=None,
+        pooling=None,
         classes=1000,
         include_top=True,
         stride_size=4,
@@ -534,6 +553,7 @@ def SEResNet34(
         include_top=include_top,
         classes=classes,
         weights=weights,
+        pooling=pooling,
         stride_size=stride_size,
         kernel_size=kernel_size,
         repetitions=repetitions,
