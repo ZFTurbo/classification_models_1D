@@ -107,9 +107,23 @@ model = ResNet18(
 
 ### Pretrained weights
 
-#### Imagenet
+#### Imagenet weights
 
 Imagenet weights available for all models except ('inceptionresnetv2', 'inceptionv3'). They available only for `kernel_size == 3` or `kernel_size == 9` and 2 channel input (e.g. stereo sound). Weights were converted from 2D models to 1D variant. Weights can be loaded with any pooling scheme.   
+
+#### Audioset weights
+
+[AudioSet](https://research.google.com/audioset/) is large audio dataset. It's multilabel classifcation on 527 different classes. All available data was used for training. It's around 1.9 millions of audio tracks. Each track is around 10 seconds of length. 
+* AudioSet weights were obtained for default parameters `kernel_size = 9`, `stride_size = (4, 4, 4, 4, 4)`. 
+* Random class sampling was used during training. To form batch first choose random class, then choose random sample, which contains this class. 
+* Validation data can be found here: [AudioSet validation](https://www.kaggle.com/datasets/zfturbo/audioset-valid).
+
+Quality table below:
+
+| Model name | Valid AUC (macro) | Valid AUC (local) | Valid LL | Valid Acc (Macro) | Valid Acc (per sample) |
+| :--------: | :------------: | :------------: | :------: | :---------------: | :--------------------: |
+| resnet18   | 0.9541         | 0.9666         | 8.5059   |  0.2401           | 0.2372                 |
+
 
 ### Related repositories
 
