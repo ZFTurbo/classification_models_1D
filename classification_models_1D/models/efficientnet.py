@@ -316,7 +316,7 @@ def EfficientNet(
     x = layers.Normalization(axis=bn_axis)(x)
 
     x = layers.ZeroPadding1D(
-        padding=(0, 1),
+        padding=(kernel_size // 2, kernel_size // 2),
         name='stem_conv_pad')(x)
     x = layers.Conv1D(
         round_filters(32),

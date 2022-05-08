@@ -341,7 +341,7 @@ def _conv_block(inputs, filters, alpha, kernel=3, strides=1):
     channel_axis = 1 if backend.image_data_format() == 'channels_first' else -1
     filters = int(filters * alpha)
     kernel = kernel * kernel
-    x = layers.ZeroPadding1D(padding=(0, 1), name='conv1_pad')(inputs)
+    x = layers.ZeroPadding1D(padding=(kernel // 2, kernel // 2), name='conv1_pad')(inputs)
     x = layers.Conv1D(filters, kernel,
                       padding='valid',
                       use_bias=False,
@@ -351,8 +351,15 @@ def _conv_block(inputs, filters, alpha, kernel=3, strides=1):
     return layers.ReLU(6., name='conv1_relu')(x)
 
 
-def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
-                          depth_multiplier=1, strides=1, block_id=1):
+def _depthwise_conv_block(
+        inputs,
+        pointwise_conv_filters,
+        alpha,
+        depth_multiplier=1,
+        strides=1,
+        kernel_size=9,
+        block_id=1,
+):
     """Adds a depthwise convolution block.
 
     A depthwise convolution block consists of a depthwise conv,
@@ -409,14 +416,16 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters, alpha,
 
     if strides == 1:
         x = inputs
+        padding = 'same'
     else:
-        x = layers.ZeroPadding1D((0, 1),
-                                 name='conv_pad_%d' % block_id)(inputs)
+        x = layers.ZeroPadding1D((kernel_size // 2, kernel_size // 2), name='conv_pad_%d' % block_id)(inputs)
+        padding = 'valid'
 
     x = layers.DepthwiseConv1D(
-        kernel_size=9,
+        kernel_size=kernel_size,
         depth_multiplier=depth_multiplier,
         strides=strides,
+        padding=padding,
         use_bias=False,
         name='conv_dw_%d' % block_id
     )(x)
