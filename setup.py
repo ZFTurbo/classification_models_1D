@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name='classification_models_1D',
-    version='1.0.0',
+    version='1.0.1',
     author='Roman Solovyev (ZFTurbo)',
     packages=['classification_models_1D', 'classification_models_1D/models'],
     url='https://github.com/ZFTurbo/classification_models_1D',
