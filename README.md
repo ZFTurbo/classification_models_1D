@@ -120,9 +120,10 @@ Imagenet weights available for all models except ('inceptionresnetv2', 'inceptio
 
 Quality table below:
 
-| Model name | Valid AUC (macro) | Valid AUC (local) | Valid LL | Valid Acc (Macro) | Valid Acc (per sample) |
-| :--------: | :------------: | :------------: | :------: | :---------------: | :--------------------: |
-| resnet18   | 0.9541         | 0.9666         | 8.5059   |  0.2401           | 0.2372                 |
+| Model name | mAP (macro) | mAP (micro) | Valid AUC (macro) | Valid AUC (local) | Valid LL | Valid Acc (Macro) | Valid Acc (per sample) |
+| :--------: | :---------: | :----------:| :------------: | :------------: | :------: | :---------------: | :--------------------: |
+| resnet18   | 0.2812      | 0.3712      | 0.9541         | 0.9666         | 8.5059   |  0.2401           | 0.2372                 |
+| resnet34   | 0.3350      | 0.4390      | 0.9594         | 0.9705         | 8.1962   |  0.2769           | 0.2787                 |
 
 
 ### Related repositories
