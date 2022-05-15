@@ -24,6 +24,9 @@ class ModelsFactory:
         'resnet101': [rn.ResNet101, rn.preprocess_input],
         'resnet152': [rn.ResNet152, rn.preprocess_input],
 
+        # ResNets (long pools 8 instead of 5)
+        'resnet18_pool8': [rn.ResNet18_pool8, rn.preprocess_input],
+
         # SE-Nets
         'seresnet18': [rn.SEResNet18, rn.preprocess_input],
         'seresnet34': [rn.SEResNet34, rn.preprocess_input],

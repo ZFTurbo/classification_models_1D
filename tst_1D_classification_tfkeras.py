@@ -11,6 +11,11 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = "{}".format(gpu_use)
 
 
+import numpy as np
+import re
+import time
+
+
 def get_model_memory_usage(batch_size, model):
     import numpy as np
     from keras import backend as K
@@ -62,10 +67,7 @@ def tst_keras():
                       'EfficientNetB3', 'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
                       'EfficientNetV2B0', 'EfficientNetV2B1', 'EfficientNetV2B2', 'EfficientNetV2B3',
                       'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L']
-    list_of_models = ['inceptionv3', 'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2',
-                      'EfficientNetB3', 'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
-                      'EfficientNetV2B0', 'EfficientNetV2B1', 'EfficientNetV2B2', 'EfficientNetV2B3',
-                      'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L']
+    summary_table = []
     for type in list_of_models:
         print('Go for {}'.format(type))
         modelPoint, preprocess_input = Classifiers.get(type)
@@ -73,16 +75,32 @@ def tst_keras():
             stride_size = 4
         else:
             stride_size = (4, 4, 4, 4, 4)
+        input_shape = (10 * 44100, 2)
         model = modelPoint(
-            input_shape=(224*224, 2),
+            input_shape=input_shape,
             include_top=include_top,
             weights=use_weights,
             stride_size=stride_size,
             kernel_size=9,
         )
-        print(model.summary())
-        print(get_model_memory_usage(1, model), 'GB')
+        summary = []
+        model.summary(print_fn=lambda x: summary.append(x))
+        summary = '\n'.join(summary)
+        match = re.search(r'Total params: (\d+)', summary)
+        param_num = match[1]
+        memory_usage = get_model_memory_usage(1, model)
+        data = np.random.uniform(0, 1, size=(100, ) + input_shape)
+        start_time = time.time()
+        res = model.predict(data, batch_size=10, verbose=False)
+        res_time = time.time() - start_time
+        print(data.shape ,res.shape)
         reset_default_graph()
+        s1 = '| {} | {} | {:.3f} | {:.4f} |'.format(type, param_num, memory_usage, res_time / 100)
+        print("Params: {} M Memory: {:.3f} GB Time: {:.4f} sec".format(param_num, memory_usage, res_time / 100))
+        summary_table.append(s1)
+
+    for s in summary_table:
+        print(s)
 
 
 if __name__ == '__main__':

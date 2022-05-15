@@ -44,6 +44,8 @@ All possible nets for `Classifiers.get()` method: `'resnet18', 'resnet34', 'resn
                       'EfficientNetV2B0', 'EfficientNetV2B1', 'EfficientNetV2B2', 'EfficientNetV2B3',
                       'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L'`
 
+Non-standard nets: `resnet18_pool8`
+
 ### Convert imagenet weights (2D -> 1D)
 
 Code to convert 2D imagenet weights to 1D variant is available here: [convert_imagenet_weights_to_1D_models.py](convert_imagenet_weights_to_1D_models.py).
@@ -124,6 +126,53 @@ Quality table below:
 | :--------: | :--------------: | :---------------:| :--------------: | :--------------: | :-----: | :--------------: | :-------------------: |
 | resnet18   | 0.2812           | 0.3712           | 0.9541           | 0.9666           | 8.5059  |  0.2401          | 0.2372                |
 | resnet34   | 0.3350           | 0.4390           | 0.9594           | 0.9705           | 8.1962  |  0.2769          | 0.2787                |
+| EfficientNetB5| 0.3514        | 0.4725           | 0.9662           | 0.9767           | 8.0650  |  0.2832          | 0.2873                |
+
+### Model comparison list
+
+| Model name | Number of params (millions) | Req. memory for 1 sample (GB) | Time proc one image (sec) |
+| :--------: | :-------------------------: | :---------------------------: | :-----------------------: |
+| resnet18 | 11 | 0.416 | 0.1450 |
+| resnet34 | 21 | 0.639 | 0.2680 |
+| resnet50 | 23 | 1.380 | 0.3950 |
+| resnet101 | 42 | 2.094 | 0.5375 |
+| resnet152 | 58 | 2.946 | 0.7941 |
+| seresnet18 | 11 | 0.441 | 0.1283 |
+| seresnet34 | 21 | 0.685 | 0.2287 |
+| seresnet50 | 26 | 1.534 | 0.3108 |
+| seresnet101 | 47 | 2.368 | 0.5387 |
+| seresnet152 | 64 | 3.366 | 0.7853 |
+| seresnext50 | 25 | 2.202 | 0.5495 |
+| seresnext101 | 47 | 3.345 | 0.9465 |
+| senet154 | 113 | 6.132 | 2.7225 |
+| resnext50 | 23 | 2.015 | 0.7168 |
+| resnext101 | 42 | 3.037 | 0.9152 |
+| vgg16 | 14 | 0.552 | 0.6331 |
+| vgg19 | 20 | 0.614 | 0.7746 |
+| densenet121 | 7 | 1.656 | 0.4552 |
+| densenet169 | 12 | 2.010 | 0.5861 |
+| densenet201 | 18 | 2.595 | 0.7707 |
+| mobilenet | 3 | 0.563 | 0.1101 |
+| mobilenetv2 | 2 | 0.722 | 0.1391 |
+| inceptionresnetv2 | 80 | 2.046 | 0.7017 |
+| inceptionv3 | 41 | 0.833 | 0.3453 |
+| EfficientNetB0 | 3 | 0.825 | 0.2259 |
+| EfficientNetB1 | 6 | 1.142 | 0.3066 |
+| EfficientNetB2 | 7 | 1.198 | 0.3217 |
+| EfficientNetB3 | 10 | 1.590 | 0.4202 |
+| EfficientNetB4 | 17 | 2.082 | 0.5470 |
+| EfficientNetB5 | 27 | 2.870 | 0.7400 |
+| EfficientNetB6 | 40 | 3.685 | 0.9357 |
+| EfficientNetB7 | 63 | 4.955 | 1.2509 |
+| EfficientNetV2B0 | 5 | 0.535 | 0.1710 |
+| EfficientNetV2B1 | 6 | 0.698 | 0.2207 |
+| EfficientNetV2B2 | 8 | 0.759 | 0.2526 |
+| EfficientNetV2B3 | 12 | 0.958 | 0.3317 |
+| EfficientNetV2S | 20 | 1.396 | 0.4392 |
+| EfficientNetV2M | 53 | 2.340 | 0.7458 |
+| EfficientNetV2L | 117 | 4.205 | 1.3081 |
+
+* **Note**: Required memory is for input shape of (441000, 2) - it's for classification of 10 seconds stereo audio (like in AudioSet). 
 
 
 ### Related repositories

@@ -189,12 +189,14 @@ def ResNet(
         input_shape=None,
         input_tensor=None,
         include_top=True,
-        classes=1000,
+        classes=527,
         weights='imagenet',
         stride_size=4,
         kernel_size=9,
         init_filters=64,
+        filters_list=None,
         first_kernel_size=49,
+        max_filters=2048,
         repetitions=None,
         pooling=None,
         **kwargs
@@ -268,7 +270,10 @@ def ResNet(
     # resnet bottom
     x = layers.BatchNormalization(name='bn_data', **bn_params)(img_input)
     x = layers.ZeroPadding1D(padding=first_kernel_size // 2)(x)
-    x = layers.Conv1D(init_filters, first_kernel_size, strides=stride_size[0], name='conv0', **conv_params)(x)
+    ifilter = init_filters
+    if filters_list is not None:
+        ifilter = filters_list[0]
+    x = layers.Conv1D(ifilter, first_kernel_size, strides=stride_size[0], name='conv0', **conv_params)(x)
     x = layers.BatchNormalization(name='bn0', **bn_params)(x)
     x = layers.Activation('relu', name='relu0')(x)
     x = layers.ZeroPadding1D(padding=(stride_size[1] + 1) // 2)(x)
@@ -279,7 +284,12 @@ def ResNet(
     for stage, rep in enumerate(repetitions):
         for block in range(rep):
 
-            filters = init_filters * (2 ** stage)
+            if filters_list is None:
+                filters = init_filters * (2 ** stage)
+            else:
+                filters = filters_list[stage + 1]
+            if filters > max_filters:
+                filters = max_filters
 
             # first block of first stage without strides because we have maxpooling before
             if block == 0 and stage == 0:
@@ -369,6 +379,8 @@ MODELS_PARAMS = {
     'resnet152': ModelParams('resnet152', residual_bottleneck_block, None),
     'seresnet18': ModelParams('seresnet18', residual_conv_block, ChannelSE),
     'seresnet34': ModelParams('seresnet34', residual_conv_block, ChannelSE),
+
+    'resnet18_pool8': ModelParams('resnet18_pool8', residual_conv_block, None),
 }
 
 
@@ -377,7 +389,7 @@ def ResNet18(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -404,7 +416,7 @@ def ResNet34(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -431,7 +443,7 @@ def ResNet50(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -458,7 +470,7 @@ def ResNet101(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -485,7 +497,7 @@ def ResNet152(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -512,7 +524,7 @@ def SEResNet18(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -539,7 +551,7 @@ def SEResNet34(
         input_tensor=None,
         weights=None,
         pooling=None,
-        classes=1000,
+        classes=527,
         include_top=True,
         stride_size=4,
         kernel_size=9,
@@ -561,6 +573,37 @@ def SEResNet34(
     )
 
 
+def ResNet18_pool8(
+        input_shape=None,
+        input_tensor=None,
+        weights=None,
+        pooling=None,
+        classes=527,
+        include_top=True,
+        stride_size=(2, 2, 2, 3, 3, 5, 5, 5),
+        kernel_size=9,
+        repetitions=(2, 2, 2, 2, 2, 2, 2),
+        filters_list=(64, 64, 96, 128, 192, 256, 384, 512),
+        max_filters=2048,
+        **kwargs
+):
+    return ResNet(
+        MODELS_PARAMS['resnet18_pool8'],
+        input_shape=input_shape,
+        input_tensor=input_tensor,
+        include_top=include_top,
+        classes=classes,
+        weights=weights,
+        pooling=pooling,
+        stride_size=stride_size,
+        kernel_size=kernel_size,
+        repetitions=repetitions,
+        filters_list=filters_list,
+        max_filters=max_filters,
+        **kwargs
+    )
+
+
 def preprocess_input(x, **kwargs):
     return x
 
@@ -572,3 +615,5 @@ setattr(ResNet101, '__doc__', ResNet.__doc__)
 setattr(ResNet152, '__doc__', ResNet.__doc__)
 setattr(SEResNet18, '__doc__', ResNet.__doc__)
 setattr(SEResNet34, '__doc__', ResNet.__doc__)
+
+setattr(ResNet18_pool8, '__doc__', ResNet.__doc__)
