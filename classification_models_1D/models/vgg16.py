@@ -11,6 +11,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os
+import numpy as np
 from .. import get_submodules_from_kwargs
 from ..weights import load_model_weights
 from keras_applications import imagenet_utils
@@ -32,6 +33,7 @@ def VGG16(
         init_filters=64,
         max_filters=512,
         repetitions=(2, 2, 3, 3, 3),
+        use_batch_norm=False,
         **kwargs
 ):
     """Instantiates the VGG16 architecture.
@@ -121,6 +123,8 @@ def VGG16(
                 padding='same',
                 name='block{}_conv{}'.format(stage + 1, i + 1)
             )(x)
+            if use_batch_norm:
+                x = layers.BatchNormalization(epsilon=1e-5, momentum=0.1)(x)
 
         x = layers.MaxPooling1D(stride_size[stage], strides=stride_size[stage], name='block{}_pool'.format(stage+1))(x)
 
