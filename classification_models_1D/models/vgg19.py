@@ -15,7 +15,9 @@ from .. import get_submodules_from_kwargs
 from ..weights import load_model_weights
 from keras_applications import imagenet_utils
 
-preprocess_input = imagenet_utils.preprocess_input
+
+def preprocess_input(x, **kwargs):
+    return x
 
 
 def VGG19(
