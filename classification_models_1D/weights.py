@@ -945,4 +945,126 @@ WEIGHTS_COLLECTION = [
         'md5': '1f4883212454280741f405bf283db921',
     },
 
+    # AudioSet block
+
+    # resnet18_audioset_channel_2_kernel_9_top_True.h5
+    {
+        'model': 'resnet18',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': True,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet18_audioset_channel_2_kernel_9_top_True.h5',
+        'name': 'resnet18_audioset_channel_2_kernel_9_top_True.h5',
+        'md5': '508dc73517fc8de1a01b4b818632c55e',
+    },
+    # resnet18_audioset_channel_2_kernel_9_top_False.h5
+    {
+        'model': 'resnet18',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': False,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet18_audioset_channel_2_kernel_9_top_False.h5',
+        'name': 'resnet18_audioset_channel_2_kernel_9_top_False.h5',
+        'md5': '2dab4f5937b74436e29fb1dce15812e6',
+    },
+    # EfficientNetB5_audioset_channel_2_kernel_9_top_True.h5
+    {
+        'model': 'EfficientNetB5',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': True,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetB5_audioset_channel_2_kernel_9_top_True.h5',
+        'name': 'EfficientNetB5_audioset_channel_2_kernel_9_top_True.h5',
+        'md5': 'd1b31eb395b3241c0ddddc7a7d1693da',
+    },
+    # EfficientNetB5_audioset_channel_2_kernel_9_top_False.h5
+    {
+        'model': 'EfficientNetB5',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': False,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetB5_audioset_channel_2_kernel_9_top_False.h5',
+        'name': 'EfficientNetB5_audioset_channel_2_kernel_9_top_False.h5',
+        'md5': 'acfaf0521c2b381d6d0c07686008ffec',
+    },
+    # resnet34_audioset_channel_2_kernel_9_top_True.h5
+    {
+        'model': 'resnet34',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': True,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet34_audioset_channel_2_kernel_9_top_True.h5',
+        'name': 'resnet34_audioset_channel_2_kernel_9_top_True.h5',
+        'md5': 'df8c99a52e254416ce934d2b9255af2c',
+    },
+    # resnet34_audioset_channel_2_kernel_9_top_False.h5
+    {
+        'model': 'resnet34',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': False,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet34_audioset_channel_2_kernel_9_top_False.h5',
+        'name': 'resnet34_audioset_channel_2_kernel_9_top_False.h5',
+        'md5': 'b57e09a3e217e582424e1d3c74900d31',
+    },
+    # EfficientNetV2L_audioset_channel_2_kernel_9_top_True.h5
+    {
+        'model': 'EfficientNetV2L',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': True,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetV2L_audioset_channel_2_kernel_9_top_True.h5',
+        'name': 'EfficientNetV2L_audioset_channel_2_kernel_9_top_True.h5',
+        'md5': 'de880de976ec3a2c1c478998bea6ad1e',
+    },
+    # EfficientNetV2L_audioset_channel_2_kernel_9_top_False.h5
+    {
+        'model': 'EfficientNetV2L',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': False,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetV2L_audioset_channel_2_kernel_9_top_False.h5',
+        'name': 'EfficientNetV2L_audioset_channel_2_kernel_9_top_False.h5',
+        'md5': '73b8df590747f75af8b3cdd5fe89dc37',
+    },
+    # resnet18_pool8_audioset_channel_2_kernel_9_top_True.h5
+    {
+        'model': 'resnet18_pool8',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': True,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet18_pool8_audioset_channel_2_kernel_9_top_True.h5',
+        'name': 'resnet18_pool8_audioset_channel_2_kernel_9_top_True.h5',
+        'md5': 'f8eff335042b2bf90c038ddf6e73d279',
+    },
+    # resnet18_pool8_audioset_channel_2_kernel_9_top_False.h5
+    {
+        'model': 'resnet18_pool8',
+        'dataset': 'audioset',
+        'classes': 527,
+        'include_top': False,
+        'kernel_size': 9,
+        'channel': 2,
+        'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/resnet18_pool8_audioset_channel_2_kernel_9_top_False.h5',
+        'name': 'resnet18_pool8_audioset_channel_2_kernel_9_top_False.h5',
+        'md5': 'ad7cd0123a1ab84955fd9840b5168cea',
+    },
 ]
