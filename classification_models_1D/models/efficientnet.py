@@ -269,10 +269,10 @@ def EfficientNet(
     if blocks_args == 'default':
         blocks_args = DEFAULT_BLOCKS_ARGS
 
-    if not (weights in {'imagenet', None} or tf.io.gfile.exists(weights)):
+    if not (weights in {'imagenet', 'audioset', None} or tf.io.gfile.exists(weights)):
         raise ValueError('The `weights` argument should be either '
-                         '`None` (random initialization), `imagenet` '
-                         '(pre-training on ImageNet), '
+                         '`None` (random initialization), `imagenet, `audioset` ` '
+                         '(pre-training on ImageNet or AudioSet), '
                          'or the path to the weights file to be loaded.')
 
     if weights == 'imagenet' and include_top and classes != 1000:
