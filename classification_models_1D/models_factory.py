@@ -11,6 +11,7 @@ from .models import inception_v3 as iv3
 from .models import mobilenet as mb1
 from .models import mobilenet_v2 as mb2
 from .models import efficientnet as eff
+from .models import efficientnet_spectre as eff_s
 from .models import efficientnet_v2 as eff2
 
 
@@ -76,6 +77,16 @@ class ModelsFactory:
         'EfficientNetV2S': [eff2.EfficientNetV2S, eff2.preprocess_input],
         'EfficientNetV2M': [eff2.EfficientNetV2M, eff2.preprocess_input],
         'EfficientNetV2L': [eff2.EfficientNetV2L, eff2.preprocess_input],
+
+        # EfficientNet (Sepctre)
+        'EfficientNetB0_spectre': [eff_s.EfficientNetB0_spectre, eff_s.preprocess_input],
+        'EfficientNetB1_spectre': [eff_s.EfficientNetB1_spectre, eff_s.preprocess_input],
+        'EfficientNetB2_spectre': [eff_s.EfficientNetB2_spectre, eff_s.preprocess_input],
+        'EfficientNetB3_spectre': [eff_s.EfficientNetB3_spectre, eff_s.preprocess_input],
+        'EfficientNetB4_spectre': [eff_s.EfficientNetB4_spectre, eff_s.preprocess_input],
+        'EfficientNetB5_spectre': [eff_s.EfficientNetB5_spectre, eff_s.preprocess_input],
+        'EfficientNetB6_spectre': [eff_s.EfficientNetB6_spectre, eff_s.preprocess_input],
+        'EfficientNetB7_spectre': [eff_s.EfficientNetB7_spectre, eff_s.preprocess_input],
     }
 
     @property

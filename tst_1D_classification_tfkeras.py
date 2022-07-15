@@ -66,23 +66,36 @@ def tst_keras():
                       'inceptionresnetv2', 'inceptionv3', 'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2',
                       'EfficientNetB3', 'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
                       'EfficientNetV2B0', 'EfficientNetV2B1', 'EfficientNetV2B2', 'EfficientNetV2B3',
-                      'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L']
+                      'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L', 'resnet18_pool8',
+                      'EfficientNetB0_spectre', 'EfficientNetB1_spectre', 'EfficientNetB2_spectre',
+                      'EfficientNetB3_spectre', 'EfficientNetB4_spectre', 'EfficientNetB5_spectre',
+                      'EfficientNetB6_spectre', 'EfficientNetB7_spectre'
+                      ]
     summary_table = []
     for type in list_of_models:
         print('Go for {}'.format(type))
         modelPoint, preprocess_input = Classifiers.get(type)
+
+        input_shape = (10 * 44100, 2)
         if type in ['inceptionresnetv2', 'inceptionv3']:
             stride_size = 4
         else:
             stride_size = (4, 4, 4, 4, 4)
-        input_shape = (10 * 44100, 2)
-        model = modelPoint(
-            input_shape=input_shape,
-            include_top=include_top,
-            weights=use_weights,
-            stride_size=stride_size,
-            kernel_size=9,
-        )
+
+        if type in ['resnet18_pool8']:
+            model = modelPoint(
+                input_shape=input_shape,
+                include_top=include_top,
+                weights=use_weights,
+            )
+        else:
+            model = modelPoint(
+                input_shape=input_shape,
+                include_top=include_top,
+                weights=use_weights,
+                stride_size=stride_size,
+                kernel_size=9,
+            )
         summary = []
         model.summary(print_fn=lambda x: summary.append(x))
         summary = '\n'.join(summary)

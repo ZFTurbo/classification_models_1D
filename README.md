@@ -35,16 +35,20 @@ ResNet18, preprocess_input = Classifiers.get('resnet18')
 model = ResNet18(input_shape=(224*224, 2), weights='imagenet')
 ```
 
-All possible nets for `Classifiers.get()` method: `'resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152', 'seresnet18',
-                      'seresnet34', 'seresnet50', 'seresnet101', 'seresnet152', 'seresnext50',
-                      'seresnext101', 'senet154', 'resnext50', 'resnext101', 'vgg16', 'vgg19',
-                      'densenet121', 'densenet169', 'densenet201', 'mobilenet', 'mobilenetv2',
-                      'inceptionresnetv2', 'inceptionv3', 'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2',
-                      'EfficientNetB3', 'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
-                      'EfficientNetV2B0', 'EfficientNetV2B1', 'EfficientNetV2B2', 'EfficientNetV2B3',
-                      'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L'`
+All possible nets for `Classifiers.get()` method: 
 
-Non-standard nets: `resnet18_pool8`
+Based on Conv1D: `'resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152', 'seresnet18', 'seresnet34', 
+'seresnet50', 'seresnet101', 'seresnet152', 'seresnext50','seresnext101', 'senet154', 'resnext50', 
+'resnext101', 'vgg16', 'vgg19', 'densenet121', 'densenet169', 'densenet201', 'mobilenet', 'mobilenetv2', 
+'inceptionresnetv2', 'inceptionv3', 'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2', 'EfficientNetB3', 
+'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7', 'EfficientNetV2B0', 'EfficientNetV2B1', 
+'EfficientNetV2B2', 'EfficientNetV2B3', 'EfficientNetV2S', 'EfficientNetV2M', 'EfficientNetV2L'`
+
+Non-standard nets (Conv1D): `resnet18_pool8`
+
+Based on spectrograms and Conv2D: `'EfficientNetB0_spectre', 'EfficientNetB1_spectre', 'EfficientNetB2_spectre', 
+'EfficientNetB3_spectre', 'EfficientNetB4_spectre', 'EfficientNetB5_spectre', 'EfficientNetB6_spectre', 
+'EfficientNetB7_spectre'`
 
 ### Convert imagenet weights (2D -> 1D)
 
@@ -174,6 +178,14 @@ Quality table below:
 | EfficientNetV2S | 20 | 1.396 | 0.4392 |
 | EfficientNetV2M | 53 | 2.340 | 0.7458 |
 | EfficientNetV2L | 117 | 4.205 | 1.3081 |
+| EfficientNetB0_spectre | 4 | 0.029 | 0.1647 |
+| EfficientNetB1_spectre | 6 | 0.039 | 0.2184 |
+| EfficientNetB2_spectre | 7 | 0.043 | 0.2220 |
+| EfficientNetB3_spectre | 10 | 0.055 | 0.2915 |
+| EfficientNetB4_spectre | 17 | 0.081 | 0.3644 |
+| EfficientNetB5_spectre | 28 | 0.121 | 0.4704 |
+| EfficientNetB6_spectre | 40 | 0.168 | 0.5964 |
+| EfficientNetB7_spectre | 64 | 0.254 | 0.7912 |
 
 * **Note**: Required memory is for input shape of (441000, 2) - it's for classification of 10 seconds stereo audio (like in AudioSet). 
 
