@@ -133,6 +133,7 @@ def EfficientNet_spectre(
         win_length=2048,
         hop_length=1024,
         n_fft=1024,
+        align_32=False,
         dropout_val=0.0,
         classifier_activation='softmax',
         **kwargs
@@ -162,6 +163,13 @@ def EfficientNet_spectre(
     x2 = layers.Lambda(lambda x: 50 + x[:, :, :, 0:1])(x)
     x3 = layers.Lambda(lambda x: 50 + x[:, :, :, 1:2])(x)
     x = layers.concatenate([x1, x2, x3], axis=-1)
+
+    if align_32:
+        # print('Shape before: {}'.format(x.shape))
+        pad1 = (32 - x.shape[1] % 32) % 32
+        pad2 = (32 - x.shape[2] % 32) % 32
+        x = layers.ZeroPadding2D(((0, pad1), (0, pad2)), name="align_32_zeropad")(x)
+        # print('Zeropad: {} {} Shape: {}'.format(pad1, pad2, x.shape))
 
     x = effnet[type](
         include_top=False,
