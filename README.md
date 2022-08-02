@@ -134,6 +134,7 @@ Quality table below:
 | EfficientNetV2L | 0.3307      | 0.4559           | 0.9608           | 0.9726           | 8.3544  |  0.2642          | 0.2648                |
 | resnet18_pool8 | 0.3125       | 0.4318           | 0.9602           | 0.9718           | 8.3810  | 0.2596           | 0.2576                |
 | EfficientNetB5_spectre | 0.3801       | 0.5056   | 0.9695           | 0.9787           | 7.7415  | 0.3167           | 0.3295                |
+| Ensemble (EfficientNetB5 + EfficientNetB5_spectre) | 0.4046       | 0.5215   | 0.9737           | 0.9821           | 7.4294  | 0.3059           | 0.3104                |
 
 ### Model comparison list
 
