@@ -122,8 +122,8 @@ BASE_DOCSTRING = """Instantiates the {name} architecture.
 """
 
 
-def EfficientNet_spectre(
-        type_model=0,
+def EfficientNet_dual(
+        type=0,
         model_name='efficientnet',
         include_top=True,
         weights='imagenet',
@@ -139,171 +139,141 @@ def EfficientNet_spectre(
         **kwargs
 ):
     global backend, layers, models, keras_utils
+    from .efficientnet import EfficientNetB0, EfficientNetB1,EfficientNetB2, EfficientNetB3, \
+        EfficientNetB4, EfficientNetB5, EfficientNetB6, EfficientNetB7
+    from .efficientnet_spectre import EfficientNetB0_spectre, EfficientNetB1_spectre, EfficientNetB2_spectre, \
+        EfficientNetB3_spectre, EfficientNetB4_spectre, EfficientNetB5_spectre, EfficientNetB6_spectre, \
+        EfficientNetB7_spectre
+
     backend, layers, models, keras_utils = get_submodules_from_kwargs(kwargs)
 
-    trim_begin = win_length - hop_length
-    trim_end = trim_begin + input_shape[0]
-
-    stft_layer, istft_layer = get_perfectly_reconstructing_stft_istft(
-        stft_input_shape=input_shape,
-        n_fft=n_fft,
-        win_length=win_length,
-        hop_length=hop_length,
-    )
-
-    effnet = [EfficientNetB0, EfficientNetB1, EfficientNetB2, EfficientNetB3,
-              EfficientNetB4, EfficientNetB5, EfficientNetB6, EfficientNetB7]
-
-    print(input_shape)
     inp = layers.Input(input_shape)
-    x = stft_layer(inp)
-    x = Magnitude()(x)
-    x = MagnitudeToDecibel()(x)
-    x1 = layers.Lambda(lambda x: 50 + x[:, :, :, 0:1])(x)
-    x2 = layers.Lambda(lambda x: 50 + x[:, :, :, 0:1])(x)
-    x3 = layers.Lambda(lambda x: 50 + x[:, :, :, 1:2])(x)
-    x = layers.concatenate([x1, x2, x3], axis=-1)
 
-    if align_32:
-        # print('Shape before: {}'.format(x.shape))
-        pad1 = (32 - x.shape[1] % 32) % 32
-        pad2 = (32 - x.shape[2] % 32) % 32
-        x = layers.ZeroPadding2D(((0, pad1), (0, pad2)), name="align_32_zeropad")(x)
-        # print('Zeropad: {} {} Shape: {}'.format(pad1, pad2, x.shape))
+    effnet_1D = [EfficientNetB0, EfficientNetB1, EfficientNetB2, EfficientNetB3,
+              EfficientNetB4, EfficientNetB5, EfficientNetB6, EfficientNetB7]
+    effnet_2D = [EfficientNetB0_spectre, EfficientNetB1_spectre, EfficientNetB2_spectre, EfficientNetB3_spectre,
+                 EfficientNetB4_spectre, EfficientNetB5_spectre, EfficientNetB6_spectre, EfficientNetB7_spectre]
 
-    weights_2d = None
-    if weights == 'imagenet':
-        weights_2d = weights
-    x = effnet[type_model](
+    x1 = effnet_1D[type](
         include_top=False,
-        weights=weights_2d,
-        input_shape=x.shape[1:],
-        pooling=None,
-    )(x)
+        weights='audioset',
+        input_shape=input_shape,
+        pooling=pooling,
+        **kwargs,
+    )(inp)
+
+    x2 = effnet_2D[type](
+        include_top=False,
+        weights='audioset',
+        input_shape=input_shape,
+        pooling=pooling,
+        **kwargs,
+    )(inp)
+
+    x = layers.concatenate([x1, x2])
+
     if include_top:
-        x = layers.GlobalAveragePooling2D(name='avg_pool_spectre')(x)
         if dropout_val > 0:
-            x = layers.Dropout(dropout_val, name='top_dropout_spectre')(x)
+            x = layers.Dropout(dropout_val, name='top_dropout')(x)
+        imagenet_utils.validate_activation(classifier_activation, weights)
         x = layers.Dense(
             classes,
             activation=classifier_activation,
             kernel_initializer=DENSE_KERNEL_INITIALIZER,
-            name='predictions_spectre'
+            name='predictions'
         )(x)
-    else:
-        if pooling == 'avg':
-            x = layers.GlobalAveragePooling2D(name='avg_pool_spectre')(x)
-        elif pooling == 'max':
-            x = layers.GlobalMaxPooling2D(name='max_pool_spectre')(x)
 
     model = models.Model(inputs=inp, outputs=x, name=model_name)
-
-    # Load weights.
-    if weights:
-        if type(weights) == str and os.path.exists(weights):
-            model.load_weights(weights)
-        else:
-            load_model_weights(
-                model,
-                model_name,
-                weights,
-                classes,
-                include_top,
-                None,
-                input_shape[-1],
-                **kwargs
-            )
-
     return model
 
 
-def EfficientNetB0_spectre(
+def EfficientNetB0_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=0,
-        model_name='EfficientNetB0_spectre',
+    return EfficientNet_dual(
+        type=0,
+        model_name='EfficientNetB0_dual',
         **kwargs
     )
 
 
-def EfficientNetB1_spectre(
+def EfficientNetB1_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=1,
-        model_name='EfficientNetB1_spectre',
+    return EfficientNet_dual(
+        type=1,
+        model_name='EfficientNetB1_dual',
         **kwargs
     )
 
 
-def EfficientNetB2_spectre(
+def EfficientNetB2_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=2,
-        model_name='EfficientNetB2_spectre',
+    return EfficientNet_dual(
+        type=2,
+        model_name='EfficientNetB2_dual',
         **kwargs
     )
 
 
-def EfficientNetB3_spectre(
+def EfficientNetB3_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=3,
-        model_name='EfficientNetB3_spectre',
+    return EfficientNet_dual(
+        type=3,
+        model_name='EfficientNetB3_dual',
         **kwargs
     )
 
 
-def EfficientNetB4_spectre(
+def EfficientNetB4_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=4,
-        model_name='EfficientNetB4_spectre',
+    return EfficientNet_dual(
+        type=4,
+        model_name='EfficientNetB4_dual',
         **kwargs
     )
 
 
-def EfficientNetB5_spectre(
+def EfficientNetB5_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=5,
-        model_name='EfficientNetB5_spectre',
+    return EfficientNet_dual(
+        type=5,
+        model_name='EfficientNetB5_dual',
         **kwargs
     )
 
 
-def EfficientNetB6_spectre(
+def EfficientNetB6_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=6,
-        model_name='EfficientNetB6_spectre',
+    return EfficientNet_dual(
+        type=6,
+        model_name='EfficientNetB6_dual',
         **kwargs
     )
 
-def EfficientNetB7_spectre(
+def EfficientNetB7_dual(
         **kwargs
 ):
-    return EfficientNet_spectre(
-        type_model=7,
-        model_name='EfficientNetB7_spectre',
+    return EfficientNet_dual(
+        type=7,
+        model_name='EfficientNetB7_dual',
         **kwargs
     )
 
 
-EfficientNetB0_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB0')
-EfficientNetB1_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB1')
-EfficientNetB2_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB2')
-EfficientNetB3_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB3')
-EfficientNetB4_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB4')
-EfficientNetB5_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB5')
-EfficientNetB6_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB6')
-EfficientNetB7_spectre.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB7')
+EfficientNetB0_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB0_dual')
+EfficientNetB1_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB1_dual')
+EfficientNetB2_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB2_dual')
+EfficientNetB3_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB3_dual')
+EfficientNetB4_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB4_dual')
+EfficientNetB5_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB5_dual')
+EfficientNetB6_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB6_dual')
+EfficientNetB7_dual.__doc__ = BASE_DOCSTRING.format(name='EfficientNetB7_dual')
 
 
 

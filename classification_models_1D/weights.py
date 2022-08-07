@@ -945,8 +945,6 @@ WEIGHTS_COLLECTION = [
         'md5': '1f4883212454280741f405bf283db921',
     },
 
-    # AudioSet block
-
     # resnet18_audioset_channel_2_kernel_9_top_True.h5
     {
         'model': 'resnet18',
@@ -1067,4 +1065,28 @@ WEIGHTS_COLLECTION = [
         'name': 'resnet18_pool8_audioset_channel_2_kernel_9_top_False.h5',
         'md5': 'ad7cd0123a1ab84955fd9840b5168cea',
     },
+# EfficientNetB5_spectre_audioset_channel_2_top_True.h5
+{
+    'model': 'EfficientNetB5_spectre',
+    'dataset': 'audioset',
+    'classes': 527,
+    'include_top': True,
+    'kernel_size': None,
+    'channel': 2,
+    'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetB5_spectre_audioset_channel_2_top_True.h5',
+    'name': 'EfficientNetB5_spectre_audioset_channel_2_top_True.h5',
+    'md5': 'a272ffc83c368fbe4b7ceb2bd1a4a5b6',
+},
+# EfficientNetB5_spectre_audioset_channel_2_top_False.h5
+{
+    'model': 'EfficientNetB5_spectre',
+    'dataset': 'audioset',
+    'classes': 527,
+    'include_top': False,
+    'kernel_size': None,
+    'channel': 2,
+    'url': 'https://github.com/ZFTurbo/classification_models_1D/releases/download/v1.0.1/EfficientNetB5_spectre_audioset_channel_2_top_False.h5',
+    'name': 'EfficientNetB5_spectre_audioset_channel_2_top_False.h5',
+    'md5': '94a21a0c748f3ec8a887dba70a277267',
+},
 ]

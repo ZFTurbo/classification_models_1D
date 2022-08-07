@@ -372,7 +372,7 @@ def EfficientNet(
         x = layers.GlobalAveragePooling1D(name='avg_pool')(x)
         if dropout_rate > 0:
             x = layers.Dropout(dropout_rate, name='top_dropout')(x)
-        imagenet_utils.validate_activation(classifier_activation, weights)
+        # imagenet_utils.validate_activation(classifier_activation, weights)
         x = layers.Dense(
             classes,
             activation=classifier_activation,

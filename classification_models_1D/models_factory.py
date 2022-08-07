@@ -12,6 +12,7 @@ from .models import mobilenet as mb1
 from .models import mobilenet_v2 as mb2
 from .models import efficientnet as eff
 from .models import efficientnet_spectre as eff_s
+from .models import efficientnet_dual as eff_d
 from .models import efficientnet_v2 as eff2
 
 
@@ -87,6 +88,16 @@ class ModelsFactory:
         'EfficientNetB5_spectre': [eff_s.EfficientNetB5_spectre, eff_s.preprocess_input],
         'EfficientNetB6_spectre': [eff_s.EfficientNetB6_spectre, eff_s.preprocess_input],
         'EfficientNetB7_spectre': [eff_s.EfficientNetB7_spectre, eff_s.preprocess_input],
+
+        # EfficientNet (Dual)
+        'EfficientNetB0_dual': [eff_d.EfficientNetB0_dual, eff_d.preprocess_input],
+        'EfficientNetB1_dual': [eff_d.EfficientNetB1_dual, eff_d.preprocess_input],
+        'EfficientNetB2_dual': [eff_d.EfficientNetB2_dual, eff_d.preprocess_input],
+        'EfficientNetB3_dual': [eff_d.EfficientNetB3_dual, eff_d.preprocess_input],
+        'EfficientNetB4_dual': [eff_d.EfficientNetB4_dual, eff_d.preprocess_input],
+        'EfficientNetB5_dual': [eff_d.EfficientNetB5_dual, eff_d.preprocess_input],
+        'EfficientNetB6_dual': [eff_d.EfficientNetB6_dual, eff_d.preprocess_input],
+        'EfficientNetB7_dual': [eff_d.EfficientNetB7_dual, eff_d.preprocess_input],
     }
 
     @property
